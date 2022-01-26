@@ -1,13 +1,13 @@
 <?php
 
-namespace Platron\AtolV4\tests\unit\data_objects;
+namespace Platron\AtolV5\tests\unit\data_objects;
 
-use Platron\AtolV4\data_objects\Client;
-use Platron\AtolV4\data_objects\Company;
-use Platron\AtolV4\data_objects\Item;
-use Platron\AtolV4\data_objects\Payment;
-use Platron\AtolV4\data_objects\Receipt;
-use Platron\AtolV4\handbooks\ReceiptOperationTypes;
+use Platron\AtolV5\data_objects\Client;
+use Platron\AtolV5\data_objects\Company;
+use Platron\AtolV5\data_objects\Item;
+use Platron\AtolV5\data_objects\Payment;
+use Platron\AtolV5\data_objects\Receipt;
+use Platron\AtolV5\handbooks\ReceiptOperationTypes;
 
 class ReceiptTest extends \PHPUnit_Framework_TestCase
 {

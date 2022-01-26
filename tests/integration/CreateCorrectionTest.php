@@ -1,26 +1,41 @@
 <?php
 
-namespace Platron\AtolV4\tests\integration;
+namespace Platron\AtolV5\tests\integration;
 
-use Platron\AtolV4\clients\PostClient;
-use Platron\AtolV4\data_objects\Company;
-use Platron\AtolV4\data_objects\Correction;
-use Platron\AtolV4\data_objects\CorrectionInfo;
-use Platron\AtolV4\data_objects\Payment;
-use Platron\AtolV4\data_objects\Vat;
-use Platron\AtolV4\handbooks\CorrectionOperationTypes;
-use Platron\AtolV4\handbooks\CorrectionTypes;
-use Platron\AtolV4\handbooks\PaymentTypes;
-use Platron\AtolV4\handbooks\SnoTypes;
-use Platron\AtolV4\handbooks\Vates;
-use Platron\AtolV4\SdkException;
-use Platron\AtolV4\services\CreateCorrectionRequest;
-use Platron\AtolV4\services\CreateReceiptResponse;
-use Platron\AtolV4\services\GetTokenResponse;
-use Platron\AtolV4\services\GetStatusResponse;
-use Platron\AtolV4\services\GetStatusRequest;
-use Platron\AtolV4\services\GetTokenRequest;
+use Platron\AtolV5\clients\PostClient;
+use Platron\AtolV5\data_objects\AgentInfo;
+use Platron\AtolV5\data_objects\Company;
+use Platron\AtolV5\data_objects\Correction;
+use Platron\AtolV5\data_objects\CorrectionInfo;
+use Platron\AtolV5\data_objects\Payment;
+use Platron\AtolV5\data_objects\Supplier;
+use Platron\AtolV5\data_objects\Vat;
+use Platron\AtolV5\data_objects\PayingAgent;
+use Platron\AtolV5\data_objects\ReceivePaymentsOperator;
+use Platron\AtolV5\data_objects\MoneyTransferOperator;
+use Platron\AtolV5\handbooks\CorrectionOperationTypes;
+use Platron\AtolV5\handbooks\CorrectionTypes;
+use Platron\AtolV5\handbooks\PaymentTypes;
+use Platron\AtolV5\handbooks\PaymentMethods;
+use Platron\AtolV5\handbooks\PaymentObjects;
+use Platron\AtolV5\handbooks\SnoTypes;
+use Platron\AtolV5\handbooks\Vates;
+use Platron\AtolV5\handbooks\AgentTypes;
+use Platron\AtolV5\handbooks\ReceiptOperationTypes;
+use Platron\AtolV5\SdkException;
+use Platron\AtolV5\services\CreateCorrectionRequest;
+use Platron\AtolV5\services\CreateReceiptResponse;
+use Platron\AtolV5\services\GetTokenResponse;
+use Platron\AtolV5\services\GetStatusResponse;
+use Platron\AtolV5\services\GetStatusRequest;
+use Platron\AtolV5\services\GetTokenRequest;
 
+use Platron\AtolV5\data_objects\Item;
+use Platron\AtolV5\data_objects\MarkQuantity;
+use Platron\AtolV5\data_objects\MarkCode;
+use Platron\AtolV5\handbooks\MarkCodeTypes;
+use Platron\AtolV5\data_objects\SectoralBase;
+use Platron\AtolV5\data_objects\SectoralItemProps;
 class CreateCorrectionTest extends IntegrationTestBase
 {
 	public function testCreateCorrection()
@@ -102,8 +117,7 @@ class CreateCorrectionTest extends IntegrationTestBase
 		$correctionInfo = new CorrectionInfo(
 			new CorrectionTypes(CorrectionTypes::SELF),
 			new \DateTime(),
-			'Test base number',
-			'Test base name'
+			'Test base number'
 		);
 		return $correctionInfo;
 	}
@@ -126,10 +140,125 @@ class CreateCorrectionTest extends IntegrationTestBase
 	private function createVat()
 	{
 		$vat = new Vat(new Vates(Vates::VAT10));
-		$vat->addSum(10);
+		$vat->addSum(100);
 		return $vat;
 	}
 
+	/**
+	 * @return Item
+	 */
+	private function createItem()
+	{
+		$vat = $this->createVat();
+		$item = new Item(
+			'Test Product',
+			100,
+			1,
+			$vat
+		);
+		$agentInfo = $this->createAgentInfo();
+		$item->addAgentInfo($agentInfo);
+		$item->getPositionSum(100);
+		$item->addMeasure(0);
+		$item->addMarkProcessingMode(0);
+		$markQuantity = $this->createMarkQuantity();
+		$item->addMarkQuantity($markQuantity);
+		$code ="MDEwNDYwNzQyODY3OTA5MDIxNmVKSWpvV0g1NERkVSA5MWZmZDAgOTJzejZrU1BpckFwZk1CZnR2TGJvRTFkbFdDLzU4aEV4UVVxdjdCQmtabWs0PQ==";
+		$markCode = new MarkCode(
+			new MarkCodeTypes(
+			MarkCodeTypes::GS1M),
+			$code);
+		$item->addMarkCode($markCode);
+		$sectoral_item_props = $this->createSectoralItemProps();
+		$item->addSectoralItemProps($sectoral_item_props->getParameters());
+		$item->addPaymentMethod(new PaymentMethods(PaymentMethods::FULL_PAYMENT));
+		$item->addPaymentObject(new PaymentObjects(PaymentObjects::EXCISE_WITH_MARK));
+		$item->addUserData('Test user data');
+		$item->addExcise(5.64);
+		$item->addCountryCode("643");
+		$item->addDeclarationNumber("10702020/060520/0013422");
+		return $item;
+	}
+	/**
+	 * @return SectoralItemProps
+	 */
+	private function createSectoralItemProps() {
+		$sectoral_item_props = new SectoralItemProps("003");
+		$sectoral_item_props->addDate("12.05.2020");
+		$sectoral_item_props->addNumber("123/43");
+		$sectoral_item_props->addValue("id1=val1&id2=val2&id3=val3");
+		return $sectoral_item_props;
+	}
+	/**
+	 * @return AgentInfo
+	 */
+	private function createAgentInfo()
+	{
+		$supplier = $this->createSupplier();
+		$agentInfo = new AgentInfo(
+			new AgentTypes(AgentTypes::PAYING_AGENT),
+			$supplier
+		);
+		$payingAgent = $this->createPayingAgent();
+		$agentInfo->addPayingAgent($payingAgent);
+		$moneyTransferOperator = $this->createMoneyTransferOperator();
+		$receivePaymentOperator = $this->createReceivePaymentOperator();
+		$agentInfo->addMoneyTransferOperator($moneyTransferOperator);
+		$agentInfo->addReceivePaymentsOperator($receivePaymentOperator);
+		return $agentInfo;
+	}
+	/**
+	 * @return PayingAgent
+	 */
+	private function createPayingAgent()
+	{
+		$payingAgent = new PayingAgent('Operation name');
+		$payingAgent->addPhone('79050000003');
+		$payingAgent->addPhone('79050000004');
+		return $payingAgent;
+	}
+
+	/**
+	 * @return MarkQuantity
+	 */
+	private function createMarkQuantity()
+	{
+		$markQuantity = new MarkQuantity();
+		$markQuantity->addNumerator(4);
+		$markQuantity->addDenominator(7);
+		return $markQuantity;
+	}
+	/**
+	 * @return Supplier
+	 */
+	private function createSupplier()
+	{
+		$supplier = new Supplier('Supplier name');
+		$supplier->addInn($this->inn);
+		$supplier->addPhone('79050000001');
+		$supplier->addPhone('79050000002');
+		return $supplier;
+	}
+	/**
+	 * @return MoneyTransferOperator
+	 */
+	private function createMoneyTransferOperator()
+	{
+		$moneyTransferOperator = new MoneyTransferOperator('Test moneyTransfer operator');
+		$moneyTransferOperator->addInn($this->inn);
+		$moneyTransferOperator->addPhone('79050000005');
+		$moneyTransferOperator->addAddress('site.ru');
+		return $moneyTransferOperator;
+	}
+	/**
+	 * @return ReceivePaymentsOperator
+	 */
+	private function createReceivePaymentOperator()
+	{
+		$receivePaymentOperator = new ReceivePaymentsOperator('79050000006');
+		$receivePaymentOperator->addPhone('79050000007');
+		return $receivePaymentOperator;
+	}
 	/**
 	 * @return Correction
 	 */
@@ -139,17 +268,17 @@ class CreateCorrectionTest extends IntegrationTestBase
 		$correctionInfo = $this->createCorrectionInfo();
 		$payment = $this->createPayment();
 		$vat = $this->createVat();
-
+		$item = $this->createItem();
 		$correction = new Correction(
 			new CorrectionOperationTypes(CorrectionOperationTypes::BUY_CORRECTION),
 			$company,
 			$correctionInfo,
 			$payment,
-			$vat
+			$vat,
+			[$item]
 		);
 		return $correction;
 	}
-
 	/**
 	 * @param PostClient $client
 	 * @param GetStatusRequest $getStatusRequest
@@ -158,7 +287,7 @@ class CreateCorrectionTest extends IntegrationTestBase
 	 */
 	private function checkCorrectionStatus(PostClient $client, GetStatusRequest $getStatusRequest)
 	{
-		for ($second = 0; $second <= 10; $second++) {
+		for ($second = 0; $second <= 20; $second++) {
 			$getStatusResponse = new GetStatusResponse($client->sendRequest($getStatusRequest));
 			if ($getStatusResponse->isReceiptReady()) {
 				$this->assertTrue($getStatusResponse->isValid());

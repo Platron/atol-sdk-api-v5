@@ -1,6 +1,6 @@
 <?php
 
-namespace Platron\AtolV4\services;
+namespace Platron\AtolV5\services;
 
 use stdClass;
 
@@ -13,6 +13,10 @@ abstract class BaseServiceResponse
 	/** @var string */
 	protected $errorDescription;
 
+    /**
+     * BaseServiceResponse constructor
+     * @param stdClass $response
+     */
 	public function __construct(stdClass $response)
 	{
 		if ($this->hasStandardError($response)) {

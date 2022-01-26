@@ -1,9 +1,10 @@
 <?php
 
-namespace Platron\AtolV4\data_objects;
+namespace Platron\AtolV5\data_objects;
 
-use Platron\AtolV4\handbooks\PaymentMethods;
-use Platron\AtolV4\handbooks\PaymentObjects;
+use Platron\AtolV5\handbooks\PaymentMethods;
+use Platron\AtolV5\handbooks\PaymentObjects;
+
 
 class Item extends BaseDataObject
 {
@@ -19,21 +20,36 @@ class Item extends BaseDataObject
 	/** @var int */
 	protected $quantity;
 	/** @var string */
-	protected $measurement_unit;
+	protected $measure;
 	/** @var string */
 	protected $payment_method;
 	/** @var string */
 	protected $payment_object;
 	/** @var AgentInfo */
 	protected $agent_info;
+	/** @var MarkQuantity */
+	protected $mark_quantity;
 	/** @var Supplier */
 	protected $supplier_info;
 	/** @var string */
 	protected $user_data;
 	/** @var string */
 	protected $nomenclature_code;
+	/** @var float */
+	protected $excise;
+	/** @var string */
+	protected $country_code;
+	/** @var string */
+	protected $declaration_number;
+	/** @var string */
+	protected $mark_processing_mode;
+	/** @var MarkCode*/
+	protected $mark_code;
+	/** @var SectoralItemProps[] */
+	protected $sectoral_item_props;
 
 	/**
+	 * Item constructor
 	 * @param string $name Описание товара
 	 * @param double $price Цена единицы товара
 	 * @param float $quantity Количество товара
@@ -63,11 +79,11 @@ class Item extends BaseDataObject
 	}
 
 	/**
-	 * @param string $measuringUnit
+	 * @param int $measure
 	 */
-	public function addMeasurementUnit($measuringUnit)
+	public function addMeasure($measure)
 	{
-		$this->measurement_unit = (string)$measuringUnit;
+		$this->measure = (int)$measure;
 	}
 
 	/**
@@ -96,6 +112,14 @@ class Item extends BaseDataObject
 	}
 
 	/**
+	 * @param MarkQuantity $markQuantity
+	 */
+	public function addMarkQuantity(MarkQuantity $markQuantity)
+	{
+		$this->mark_quantity = $markQuantity;
+	}
+
+	/**
 	 * @param string $userData
 	 */
 	public function addUserData($userData)
@@ -110,4 +134,53 @@ class Item extends BaseDataObject
 	{
 		$this->nomenclature_code = (string)$nomenclatureCode;
 	}
+
+	/**
+	 * @param float $excise
+	 */
+	public function addExcise($excise)
+	{
+		$this->excise = $excise;
+	}
+
+	/**
+	 * @param string $countryCode
+	 */
+	public function addCountryCode($countryCode)
+	{
+		$this->country_code = (string)$countryCode;
+	}
+
+	/**
+	 * @param string $declarationNumber
+	 */
+	public function addDeclarationNumber($declarationNumber)
+	{
+		$this->declaration_number = (string)$declarationNumber;
+	}
+
+	/**
+	 * @param string $markProcessingMode
+	 */
+	public function addMarkProcessingMode($markProcessingMode)
+	{
+		$this->mark_processing_mode = (string)$markProcessingMode;
+	}
+
+	/**
+	 * @param MarkCode $markCode
+	 */
+	public function addMarkCode(MarkCode $markCode)
+	{
+		$this->mark_code = $markCode;
+	}
+
+	/**
+	 * @param array $sectoralItemProps
+	 */
+	public function addSectoralItemProps($sectoralItemProps)
+	{
+		$this->sectoral_item_props[] = $sectoralItemProps;
+	}
+
 }
