@@ -1,11 +1,11 @@
 <?php
 
-namespace Platron\AtolV4\data_objects;
+namespace Platron\AtolV5\data_objects;
 
 class Supplier extends BaseDataObject
 {
-	/** @var int[] */
-	private $phones;
+	/** @var string[] */
+	protected $phones;
 	/** @var string */
 	protected $name;
 	/** @var int */
@@ -21,7 +21,7 @@ class Supplier extends BaseDataObject
 	}
 
 	/**
-	 * @param int $phone
+	 * @param string $phone
 	 */
 	public function addPhone($phone)
 	{

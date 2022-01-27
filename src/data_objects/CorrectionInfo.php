@@ -1,8 +1,8 @@
 <?php
 
-namespace Platron\AtolV4\data_objects;
+namespace Platron\AtolV5\data_objects;
 
-use Platron\AtolV4\handbooks\CorrectionTypes;
+use Platron\AtolV5\handbooks\CorrectionTypes;
 
 class CorrectionInfo extends BaseDataObject
 {
@@ -12,14 +12,17 @@ class CorrectionInfo extends BaseDataObject
 	protected $base_date;
 	/** @var string */
 	protected $base_number;
-	/**	@var string */
-	protected $base_name;
 
-	public function __construct(CorrectionTypes $type, \DateTime $baseDate, $baseNumber, $baseName)
+	/**
+	 * CorrectionInfo constructor
+	 * @param CorrectionTypes $type
+	 * @param \DateTime $baseDate
+	 * @param string $baseNumber
+	 */
+	public function __construct(CorrectionTypes $type, \DateTime $baseDate, $baseNumber)
 	{
 		$this->type = $type->getValue();
 		$this->base_date = $baseDate->format('d.m.Y');
 		$this->base_number = (string)$baseNumber;
-		$this->base_name = (string)$baseName;
 	}
 }

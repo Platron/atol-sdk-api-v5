@@ -1,8 +1,8 @@
 <?php
 
-namespace Platron\AtolV4\services;
+namespace Platron\AtolV5\services;
 
-use Platron\AtolV4\data_objects\BaseDataObject;
+use Platron\AtolV5\data_objects\BaseDataObject;
 
 abstract class BaseServiceRequest extends BaseDataObject
 {
@@ -10,8 +10,8 @@ abstract class BaseServiceRequest extends BaseDataObject
 	private $demoMode;
 
 	const
-		REQUEST_URL = 'https://online.atol.ru/possystem/v4/',
-		REQUEST_DEMO_URL = 'https://testonline.atol.ru/possystem/v4/';
+		REQUEST_URL = 'https://online.atol.ru/possystem/v5/',
+		REQUEST_DEMO_URL = 'https://testonline.atol.ru/possystem/v5/';
 
 	/**
 	 * Получить url ждя запроса

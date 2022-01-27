@@ -1,6 +1,6 @@
 <?php
 
-namespace Platron\AtolV4\data_objects;
+namespace Platron\AtolV5\data_objects;
 
 class ReceivePaymentsOperator extends BaseDataObject
 {

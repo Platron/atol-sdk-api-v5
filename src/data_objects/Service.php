@@ -1,6 +1,6 @@
 <?php
 
-namespace Platron\AtolV4\data_objects;
+namespace Platron\AtolV5\data_objects;
 
 
 class Service extends BaseDataObject
@@ -8,6 +8,10 @@ class Service extends BaseDataObject
 	/** @var string */
 	protected $callbackUrl;
 
+	/**
+	 * Service constructor
+	 * @param string $callbackUrl
+	 */
 	public function __construct($callbackUrl)
 	{
 		$this->callbackUrl = (string)$callbackUrl;

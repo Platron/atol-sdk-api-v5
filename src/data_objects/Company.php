@@ -1,8 +1,8 @@
 <?php
 
-namespace Platron\AtolV4\data_objects;
+namespace Platron\AtolV5\data_objects;
 
-use Platron\AtolV4\handbooks\SnoTypes;
+use Platron\AtolV5\handbooks\SnoTypes;
 
 class Company extends BaseDataObject
 {
@@ -15,6 +15,13 @@ class Company extends BaseDataObject
 	/** @var string */
 	protected $payment_address;
 
+	/**
+	 * Company constructor
+	 * @param string $email
+	 * @param SnoTypes $sno
+	 * @param string $inn
+	 * @param string $paymentAddress
+	 */
 	public function __construct($email, SnoTypes $sno, $inn, $paymentAddress)
 	{
 		$this->email = (string)$email;

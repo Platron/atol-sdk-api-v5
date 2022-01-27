@@ -1,6 +1,6 @@
 <?php
 
-namespace Platron\AtolV4\handbooks;
+namespace Platron\AtolV5\handbooks;
 
 use MyCLabs\Enum\Enum;
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Platron\AtolV4\data_objects;
+namespace Platron\AtolV5\data_objects;
 
-use Platron\AtolV4\handbooks\ReceiptOperationTypes;
+use Platron\AtolV5\handbooks\ReceiptOperationTypes;
 
 class Receipt extends BaseDataObject
 {
@@ -18,6 +18,12 @@ class Receipt extends BaseDataObject
 	private $operationType;
 	/** @var string */
 	private $additionalCheckProps;
+	/** @var OperatingCheckProps */
+	private $operatingCheckProps;
+	/** @var AdditionalUserProps */
+	private $additionalUserProps;
+	/** @var SectoralBase */
+	private $sectoralCheckProps;
 
 	/**
 	 * Document constructor.
@@ -93,6 +99,18 @@ class Receipt extends BaseDataObject
 		    $params['additional_check_props'] = $this->additionalCheckProps;
         }
 
+		if (!empty($this->operatingCheckProps)) {
+		    $params['operating_check_props'] = $this->operatingCheckProps;
+        }
+
+		if (!empty($this->additionalUserProps)) {
+		    $params['additional_user_props'] = $this->additionalUserProps;
+        }
+
+		if (!empty($this->sectoralCheckProps)) {
+		    $params['sectoral_check_props'] = $this->sectoralCheckProps;
+        }
+
 		return $params;
 	}
 
@@ -109,4 +127,28 @@ class Receipt extends BaseDataObject
         }
         $this->additionalCheckProps = $additionalCheckProps;
     }
+
+	/**
+	 * @param OperatingCheckProps $operatingCheckProps
+	 */
+	public function addOperatingCheckProps(OperatingCheckProps $operatingCheckProps)
+	{
+		$this->operatingCheckProps = $operatingCheckProps->getParameters();
+	}
+
+	/**
+	 * @param AdditionalUserProps $additionalUserProps
+	 */
+	public function addAdditionalUserProps(AdditionalUserProps $additionalUserProps)
+	{
+		$this->additionalUserProps = $additionalUserProps->getParameters();
+	}
+
+	/**
+	 * @param SectoralBase $sectoralCheckProps
+	 */
+	public function addSectoralCheckProps(SectoralBase $sectoralCheckProps)
+	{
+		$this->sectoralCheckProps[] = $sectoralCheckProps->getParameters();
+	}
 }
