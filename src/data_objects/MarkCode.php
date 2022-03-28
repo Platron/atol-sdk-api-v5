@@ -5,24 +5,95 @@ use Platron\AtolV5\handbooks\MarkCodeTypes;
 
 class MarkCode extends BaseDataObject
 {
+
 	/** @var string */
-	protected $type;
+	protected $unknown;
 	/** @var string */
-	protected $value;
+	protected $ean8;
+	/** @var string */
+	protected $ean13;
+	/** @var string */
+	protected $itf14;
+	/** @var string */
+	protected $gs1m;
+	/** @var string */
+	protected $short;
+	/** @var string */
+	protected $fur;
+	/** @var string */
+	protected $egais20;
+	/** @var string */
+	protected $egais30;
 
 	/**
-	 * MarkCode constructor.
-	 * @param MarkCodeTypes $markCodeType
-	 * @param string $value
+	 * @param string $unknown
 	 */
-	public function __construct(MarkCodeTypes $markCodeType, string $value)
+	public function addUnknown($unknown)
 	{
-		$this->value = (string)$value;
-		$this->type = $markCodeType->getValue();
+		$this->unknow = (string)$unknown;
 	}
-	public function getParameters() {
-		$field = [];
-		$field[$this->type] = $this->value;
-		return $field;
+
+	/**
+	 * @param string $ean8
+	 */
+	public function addEan8($ean8)
+	{
+		$this->ean8 = (string)$ean8;
+	}
+
+	/**
+	 * @param string $ean13
+	 */
+	public function addEean13($ean13)
+	{
+		$this->ean13 = (string)$ean13;
+	}
+
+	/**
+	 * @param string $itf14
+	 */
+	public function addItf14($itf14)
+	{
+		$this->itf14 = (string)$itf14;
+	}
+
+	/**
+	 * @param string $gs1m
+	 */
+	public function addGs1m($gs1m)
+	{
+		$this->gs1m = (string)$gs1m;
+	}
+
+	/**
+	 * @param string $short
+	 */
+	public function addShort($short)
+	{
+		$this->short = (string)$short;
+	}
+
+	/**
+	 * @param string $fur
+	 */
+	public function addFur($fur)
+	{
+		$this->fur = (string)$fur;
+	}
+
+	/**
+	 * @param string $egais20
+	 */
+	public function addEgais20($egais20)
+	{
+		$this->egais20 = (string)$egais20;
+	}
+
+	/**
+	 * @param string $egais30
+	 */
+	public function addEgais30($egais30)
+	{
+		$this->egais30 = (string)$egais30;
 	}
 }
