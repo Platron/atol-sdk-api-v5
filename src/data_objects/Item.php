@@ -43,7 +43,7 @@ class Item extends BaseDataObject
 	protected $declaration_number;
 	/** @var string */
 	protected $mark_processing_mode;
-	/** @var MarkCode*/
+	/** @var MarkCode */
 	protected $mark_code;
 	/** @var SectoralItemProps[] */
 	protected $sectoral_item_props;

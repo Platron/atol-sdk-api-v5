@@ -37,7 +37,6 @@ class PaymentObjects extends Enum
 		EXCISE_WITHOUT_MARK = 30,
 		EXCISE_WITH_MARK = 31,
 		NON_EXCISE_WITHOUT_MARK = 32,
-		NON_EXCISE_WITH_MARK = 33
-		;
+		NON_EXCISE_WITH_MARK = 33;
 
 }

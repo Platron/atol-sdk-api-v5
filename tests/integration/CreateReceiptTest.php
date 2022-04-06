@@ -3,41 +3,39 @@
 namespace Platron\AtolV5\tests\integration;
 
 use Platron\AtolV5\clients\PostClient;
+use Platron\AtolV5\data_objects\AdditionalUserProps;
 use Platron\AtolV5\data_objects\AgentInfo;
 use Platron\AtolV5\data_objects\Client;
 use Platron\AtolV5\data_objects\Company;
 use Platron\AtolV5\data_objects\Item;
+use Platron\AtolV5\data_objects\MarkCode;
+use Platron\AtolV5\data_objects\MarkQuantity;
 use Platron\AtolV5\data_objects\MoneyTransferOperator;
+use Platron\AtolV5\data_objects\OperatingCheckProps;
 use Platron\AtolV5\data_objects\PayingAgent;
 use Platron\AtolV5\data_objects\Payment;
 use Platron\AtolV5\data_objects\Receipt;
 use Platron\AtolV5\data_objects\ReceivePaymentsOperator;
+use Platron\AtolV5\data_objects\SectoralBase;
+use Platron\AtolV5\data_objects\SectoralCheckProps;
+use Platron\AtolV5\data_objects\SectoralItemProps;
 use Platron\AtolV5\data_objects\Supplier;
 use Platron\AtolV5\data_objects\Vat;
 use Platron\AtolV5\handbooks\AgentTypes;
-use Platron\AtolV5\handbooks\ReceiptOperationTypes;
+use Platron\AtolV5\handbooks\MarkCodeTypes;
 use Platron\AtolV5\handbooks\PaymentMethods;
 use Platron\AtolV5\handbooks\PaymentObjects;
 use Platron\AtolV5\handbooks\PaymentTypes;
+use Platron\AtolV5\handbooks\ReceiptOperationTypes;
 use Platron\AtolV5\handbooks\SnoTypes;
 use Platron\AtolV5\handbooks\Vates;
 use Platron\AtolV5\SdkException;
 use Platron\AtolV5\services\CreateReceiptRequest;
 use Platron\AtolV5\services\CreateReceiptResponse;
-use Platron\AtolV5\services\GetStatusResponse;
-use Platron\AtolV5\services\GetTokenResponse;
 use Platron\AtolV5\services\GetStatusRequest;
+use Platron\AtolV5\services\GetStatusResponse;
 use Platron\AtolV5\services\GetTokenRequest;
-
-use Platron\AtolV5\data_objects\MarkQuantity;
-use Platron\AtolV5\data_objects\MarkCode;
-
-use Platron\AtolV5\handbooks\MarkCodeTypes;
-use Platron\AtolV5\data_objects\SectoralBase;
-use Platron\AtolV5\data_objects\SectoralItemProps;
-use Platron\AtolV5\data_objects\SectoralCheckProps;
-use Platron\AtolV5\data_objects\OperatingCheckProps;
-use Platron\AtolV5\data_objects\AdditionalUserProps;
+use Platron\AtolV5\services\GetTokenResponse;
 
 class CreateReceiptTest extends IntegrationTestBase
 {
@@ -57,7 +55,7 @@ class CreateReceiptTest extends IntegrationTestBase
 		$this->assertTrue($createReceiptResponse->isValid());
 
 		$getStatusRequest = $this->createGetStatusRequest($createReceiptResponse, $tokenResponse);
-		if(!$this->checkReceiptStatus($client, $getStatusRequest)){
+		if (!$this->checkReceiptStatus($client, $getStatusRequest)) {
 			$this->fail('Receipt don`t change status');
 		}
 	}
@@ -227,7 +225,8 @@ class CreateReceiptTest extends IntegrationTestBase
 	/**
 	 * @return SectoralItemProps
 	 */
-	private function createSectoralItemProps() {
+	private function createSectoralItemProps()
+	{
 		$sectoral_item_props = new SectoralItemProps("003");
 		$sectoral_item_props->addDate("12.05.2020");
 		$sectoral_item_props->addNumber("123/43");
@@ -238,7 +237,8 @@ class CreateReceiptTest extends IntegrationTestBase
 	/**
 	 * @return SectoralBase
 	 */
-	private function createSectoralCheckProps() {
+	private function createSectoralCheckProps()
+	{
 		$sectoral_check_props = new SectoralCheckProps("004");
 		$sectoral_check_props->addDate("15.08.2020");
 		$sectoral_check_props->addNumber("123/43");

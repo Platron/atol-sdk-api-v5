@@ -24,7 +24,7 @@ class CreateReceiptRequest extends BaseServiceRequest
 	 */
 	public function getRequestUrl()
 	{
-		return $this->getBaseUrl() . $this->groupCode . '/'.$this->receipt->getOperationType();
+		return $this->getBaseUrl() . $this->groupCode . '/' . $this->receipt->getOperationType();
 	}
 
 	/**

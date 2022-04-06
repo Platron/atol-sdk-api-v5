@@ -39,7 +39,7 @@ class CreateCorrectionRequest extends BaseServiceRequest
 	 */
 	public function getRequestUrl()
 	{
-		return $this->getBaseUrl() . $this->groupCode . '/'.$this->correction->getOperationType();
+		return $this->getBaseUrl() . $this->groupCode . '/' . $this->correction->getOperationType();
 	}
 
 	/**

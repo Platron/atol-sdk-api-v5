@@ -4,6 +4,7 @@ namespace Platron\AtolV5\clients;
 
 use Platron\AtolV5\services\BaseServiceRequest;
 use stdClass;
+
 interface iClient
 {
 

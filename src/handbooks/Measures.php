@@ -5,7 +5,8 @@ namespace Platron\AtolV5\handbooks;
 
 use MyCLabs\Enum\Enum;
 
-class Measures extends Enum {
+class Measures extends Enum
+{
 
 	const
 		ONE = 0,

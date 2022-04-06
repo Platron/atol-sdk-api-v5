@@ -7,35 +7,33 @@ use Platron\AtolV5\data_objects\AgentInfo;
 use Platron\AtolV5\data_objects\Company;
 use Platron\AtolV5\data_objects\Correction;
 use Platron\AtolV5\data_objects\CorrectionInfo;
+use Platron\AtolV5\data_objects\Item;
+use Platron\AtolV5\data_objects\MarkCode;
+use Platron\AtolV5\data_objects\MarkQuantity;
+use Platron\AtolV5\data_objects\MoneyTransferOperator;
+use Platron\AtolV5\data_objects\PayingAgent;
 use Platron\AtolV5\data_objects\Payment;
+use Platron\AtolV5\data_objects\ReceivePaymentsOperator;
+use Platron\AtolV5\data_objects\SectoralItemProps;
 use Platron\AtolV5\data_objects\Supplier;
 use Platron\AtolV5\data_objects\Vat;
-use Platron\AtolV5\data_objects\PayingAgent;
-use Platron\AtolV5\data_objects\ReceivePaymentsOperator;
-use Platron\AtolV5\data_objects\MoneyTransferOperator;
+use Platron\AtolV5\handbooks\AgentTypes;
 use Platron\AtolV5\handbooks\CorrectionOperationTypes;
 use Platron\AtolV5\handbooks\CorrectionTypes;
-use Platron\AtolV5\handbooks\PaymentTypes;
+use Platron\AtolV5\handbooks\MarkCodeTypes;
 use Platron\AtolV5\handbooks\PaymentMethods;
 use Platron\AtolV5\handbooks\PaymentObjects;
+use Platron\AtolV5\handbooks\PaymentTypes;
 use Platron\AtolV5\handbooks\SnoTypes;
 use Platron\AtolV5\handbooks\Vates;
-use Platron\AtolV5\handbooks\AgentTypes;
-use Platron\AtolV5\handbooks\ReceiptOperationTypes;
 use Platron\AtolV5\SdkException;
 use Platron\AtolV5\services\CreateCorrectionRequest;
 use Platron\AtolV5\services\CreateReceiptResponse;
-use Platron\AtolV5\services\GetTokenResponse;
-use Platron\AtolV5\services\GetStatusResponse;
 use Platron\AtolV5\services\GetStatusRequest;
+use Platron\AtolV5\services\GetStatusResponse;
 use Platron\AtolV5\services\GetTokenRequest;
+use Platron\AtolV5\services\GetTokenResponse;
 
-use Platron\AtolV5\data_objects\Item;
-use Platron\AtolV5\data_objects\MarkQuantity;
-use Platron\AtolV5\data_objects\MarkCode;
-use Platron\AtolV5\handbooks\MarkCodeTypes;
-use Platron\AtolV5\data_objects\SectoralBase;
-use Platron\AtolV5\data_objects\SectoralItemProps;
 class CreateCorrectionTest extends IntegrationTestBase
 {
 	public function testCreateCorrection()
@@ -55,7 +53,7 @@ class CreateCorrectionTest extends IntegrationTestBase
 
 		$getStatusRequest = $this->createGetStatusRequest($createReceiptResponse, $tokenResponse);
 
-		if(!$this->checkCorrectionStatus($client, $getStatusRequest)){
+		if (!$this->checkCorrectionStatus($client, $getStatusRequest)) {
 			$this->fail('Correction don`t change status');
 		}
 	}
@@ -163,7 +161,7 @@ class CreateCorrectionTest extends IntegrationTestBase
 		$item->addMarkProcessingMode(0);
 		$markQuantity = $this->createMarkQuantity();
 		$item->addMarkQuantity($markQuantity);
-		$code ="MDEwNDYwNzQyODY3OTA5MDIxNmVKSWpvV0g1NERkVSA5MWZmZDAgOTJzejZrU1BpckFwZk1CZnR2TGJvRTFkbFdDLzU4aEV4UVVxdjdCQmtabWs0PQ==";
+		$code = "MDEwNDYwNzQyODY3OTA5MDIxNmVKSWpvV0g1NERkVSA5MWZmZDAgOTJzejZrU1BpckFwZk1CZnR2TGJvRTFkbFdDLzU4aEV4UVVxdjdCQmtabWs0PQ==";
 		$markCode = new MarkCode(
 			new MarkCodeTypes(
 				MarkCodeTypes::GS1M),
@@ -179,16 +177,19 @@ class CreateCorrectionTest extends IntegrationTestBase
 		$item->addDeclarationNumber("10702020/060520/0013422");
 		return $item;
 	}
+
 	/**
 	 * @return SectoralItemProps
 	 */
-	private function createSectoralItemProps() {
+	private function createSectoralItemProps()
+	{
 		$sectoral_item_props = new SectoralItemProps("003");
 		$sectoral_item_props->addDate("12.05.2020");
 		$sectoral_item_props->addNumber("123/43");
 		$sectoral_item_props->addValue("id1=val1&id2=val2&id3=val3");
 		return $sectoral_item_props;
 	}
+
 	/**
 	 * @return AgentInfo
 	 */
@@ -207,6 +208,7 @@ class CreateCorrectionTest extends IntegrationTestBase
 		$agentInfo->addReceivePaymentsOperator($receivePaymentOperator);
 		return $agentInfo;
 	}
+
 	/**
 	 * @return PayingAgent
 	 */
@@ -228,6 +230,7 @@ class CreateCorrectionTest extends IntegrationTestBase
 		$markQuantity->addDenominator(7);
 		return $markQuantity;
 	}
+
 	/**
 	 * @return Supplier
 	 */
@@ -239,6 +242,7 @@ class CreateCorrectionTest extends IntegrationTestBase
 		$supplier->addPhone('79050000002');
 		return $supplier;
 	}
+
 	/**
 	 * @return MoneyTransferOperator
 	 */
@@ -250,6 +254,7 @@ class CreateCorrectionTest extends IntegrationTestBase
 		$moneyTransferOperator->addAddress('site.ru');
 		return $moneyTransferOperator;
 	}
+
 	/**
 	 * @return ReceivePaymentsOperator
 	 */
@@ -259,6 +264,7 @@ class CreateCorrectionTest extends IntegrationTestBase
 		$receivePaymentOperator->addPhone('79050000007');
 		return $receivePaymentOperator;
 	}
+
 	/**
 	 * @return Correction
 	 */
@@ -279,6 +285,7 @@ class CreateCorrectionTest extends IntegrationTestBase
 		);
 		return $correction;
 	}
+
 	/**
 	 * @param PostClient $client
 	 * @param GetStatusRequest $getStatusRequest

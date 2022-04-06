@@ -35,7 +35,7 @@ class Correction extends BaseDataObject
 		$this->correction_info = $correctionInfo;
 		$this->addPayment($payment);
 		$this->addVat($vat);
-		foreach($items as $item) {
+		foreach ($items as $item) {
 			$this->addItem($item);
 		}
 	}
@@ -67,7 +67,8 @@ class Correction extends BaseDataObject
 	/**
 	 * @return string
 	 */
-	public function getOperationType(){
+	public function getOperationType()
+	{
 		return $this->operationType;
 	}
 
@@ -78,11 +79,11 @@ class Correction extends BaseDataObject
 	{
 		$parameters = parent::getParameters();
 		$total = 0;
-		foreach($this->payments as $payment){
+		foreach ($this->payments as $payment) {
 			$parameters['payments'][] = $payment->getParameters();
 			$total += $payment->getParameters()['sum'];
 		}
-		foreach($this->vats as $vat){
+		foreach ($this->vats as $vat) {
 			$parameters['vats'][] = $vat->getParameters();
 		}
 		$parameters['total'] = $total;

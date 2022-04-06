@@ -2,7 +2,8 @@
 
 namespace Platron\AtolV5\data_objects;
 
-class SectoralBase extends BaseDataObject{
+class SectoralBase extends BaseDataObject
+{
 
 	/** @var string */
 	protected $federal_id;

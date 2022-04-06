@@ -37,7 +37,7 @@ class Receipt extends BaseDataObject
 	{
 		$this->client = $client;
 		$this->company = $company;
-		foreach($items as $item) {
+		foreach ($items as $item) {
 			$this->addItem($item);
 		}
 		$this->addPayment($payment);
@@ -75,7 +75,8 @@ class Receipt extends BaseDataObject
 	/**
 	 * @return string
 	 */
-	public function getOperationType(){
+	public function getOperationType()
+	{
 		return $this->operationType;
 	}
 
@@ -86,47 +87,47 @@ class Receipt extends BaseDataObject
 	{
 		$params = parent::getParameters();
 
-		foreach($this->items as $item) {
+		foreach ($this->items as $item) {
 			$params['items'][] = $item->getParameters();
 		}
-		foreach($this->payments as $payment) {
+		foreach ($this->payments as $payment) {
 			$params['payments'][] = $payment->getParameters();
 		}
 
 		$params['total'] = (double)$this->getItemsAmount();
 
 		if (!empty($this->additionalCheckProps)) {
-		    $params['additional_check_props'] = $this->additionalCheckProps;
-        }
+			$params['additional_check_props'] = $this->additionalCheckProps;
+		}
 
 		if (!empty($this->operatingCheckProps)) {
-		    $params['operating_check_props'] = $this->operatingCheckProps;
-        }
+			$params['operating_check_props'] = $this->operatingCheckProps;
+		}
 
 		if (!empty($this->additionalUserProps)) {
-		    $params['additional_user_props'] = $this->additionalUserProps;
-        }
+			$params['additional_user_props'] = $this->additionalUserProps;
+		}
 
 		if (!empty($this->sectoralCheckProps)) {
-		    $params['sectoral_check_props'] = $this->sectoralCheckProps;
-        }
+			$params['sectoral_check_props'] = $this->sectoralCheckProps;
+		}
 
 		return $params;
 	}
 
-    /**
-     * @param string $additionalCheckProps
-     */
+	/**
+	 * @param string $additionalCheckProps
+	 */
 	public function setAdditionalCheckProps($additionalCheckProps)
-    {
-        if (!is_string($additionalCheckProps)) {
-            throw new \InvalidArgumentException('Parameter additionalCheckProps should be string');
-        }
-        if (strlen($additionalCheckProps) > 16) {
-            throw new \LengthException('Parameter additionalCheckProps should has length less than or equal 16');
-        }
-        $this->additionalCheckProps = $additionalCheckProps;
-    }
+	{
+		if (!is_string($additionalCheckProps)) {
+			throw new \InvalidArgumentException('Parameter additionalCheckProps should be string');
+		}
+		if (strlen($additionalCheckProps) > 16) {
+			throw new \LengthException('Parameter additionalCheckProps should has length less than or equal 16');
+		}
+		$this->additionalCheckProps = $additionalCheckProps;
+	}
 
 	/**
 	 * @param OperatingCheckProps $operatingCheckProps

@@ -36,7 +36,7 @@ class Client extends BaseDataObject
 	 */
 	public function addPhone($phone)
 	{
-		$this->phone = '+'.(string)$phone;
+		$this->phone = '+' . (string)$phone;
 	}
 
 	/**
