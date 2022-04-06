@@ -21,6 +21,7 @@ use Platron\AtolV5\handbooks\PaymentObjects;
 use Platron\AtolV5\handbooks\PaymentTypes;
 use Platron\AtolV5\handbooks\SnoTypes;
 use Platron\AtolV5\handbooks\Vates;
+use Platron\AtolV5\handbooks\MarkCodeTypes;
 use Platron\AtolV5\SdkException;
 use Platron\AtolV5\services\CreateReceiptRequest;
 use Platron\AtolV5\services\CreateReceiptResponse;
@@ -31,7 +32,6 @@ use Platron\AtolV5\services\GetTokenRequest;
 
 use Platron\AtolV5\data_objects\MarkQuantity;
 use Platron\AtolV5\data_objects\MarkCode;
-use Platron\AtolV5\handbooks\MarkCodeTypes;
 use Platron\AtolV5\data_objects\SectoralBase;
 use Platron\AtolV5\data_objects\SectoralItemProps;
 use Platron\AtolV5\data_objects\SectoralCheckProps;
@@ -191,14 +191,14 @@ class CreateReceiptTest extends IntegrationTestBase
 		$markQuantity = $this->createMarkQuantity();
 		$item->addMarkQuantity($markQuantity);
 
-		$code ="MDEwNDYwNzQyODY3OTA5MDIxNmVKSWpvV0g1NERkVSA5MWZmZDAgOTJzejZrU1BpckFwZk1CZnR2TGJvRTFkbFdDLzU4aEV4UVVxdjdCQmtabWs0PQ==";
+		$code = "MDEwNDYwNzQyODY3OTA5MDIxNmVKSWpvV0g1NERkVSA5MWZmZDAgOTJzejZrU1BpckFwZk1CZnR2TGJvRTFkbFdDLzU4aEV4UVVxdjdCQmtabWs0PQ==";
+
 		$markCode = new MarkCode(
 			new MarkCodeTypes(
-			MarkCodeTypes::GS1M),
+				MarkCodeTypes::GS1M),
 			$code);
 
 		$item->addMarkCode($markCode);
-
 		$sectoral_item_props = $this->createSectoralItemProps();
 		$item->addSectoralItemProps($sectoral_item_props->getParameters());
 

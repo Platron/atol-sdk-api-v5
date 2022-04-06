@@ -4,10 +4,11 @@ namespace Platron\AtolV5\handbooks;
 
 use MyCLabs\Enum\Enum;
 
-class MarkCodeTypes extends Enum{
+class MarkCodeTypes extends Enum
+{
 
 	const
-		UNKNOW = "unknown",
+		UNKNOWN = "unknown",
 		EAN8 = "ean8",
 		EAN13 = "ean13",
 		ITF14 = "itf14",
@@ -15,7 +16,6 @@ class MarkCodeTypes extends Enum{
 		SHORT = "short",
 		FUR = "fur",
 		EGAIS20 = "egais20",
-		EGAIS30 = "egais30"
-	;
+		EGAIS30 = "egais30";
 
 }
