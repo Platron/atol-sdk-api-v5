@@ -193,8 +193,7 @@ class CreateReceiptTest extends IntegrationTestBase
 		$code = "MDEwNDYwNzQyODY3OTA5MDIxNmVKSWpvV0g1NERkVSA5MWZmZDAgOTJzejZrU1BpckFwZk1CZnR2TGJvRTFkbFdDLzU4aEV4UVVxdjdCQmtabWs0PQ==";
 
 		$markCode = new MarkCode(
-			new MarkCodeTypes(
-				MarkCodeTypes::GS1M),
+			new MarkCodeTypes(MarkCodeTypes::GS1M),
 			$code);
 
 		$item->addMarkCode($markCode);
@@ -294,7 +293,7 @@ class CreateReceiptTest extends IntegrationTestBase
 		$receipt = new Receipt($customer, $company, [$item], $payment, new ReceiptOperationTypes(ReceiptOperationTypes::BUY));
 
 		$sectoral_check_props = $this->createSectoralCheckProps();
-		$receipt->addSectoralCheckProps($sectoral_check_props);
+		$receipt->addSectoralCheckProps([$sectoral_check_props]);
 
 		$operating_check_props = $this->createOperatingCheckProps();
 		$receipt->addOperatingCheckProps($operating_check_props);

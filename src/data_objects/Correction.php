@@ -12,7 +12,7 @@ class Correction extends BaseDataObject
 	protected $correction_info;
 	/** @var Payment[] */
 	private $payments;
-	/** @var Vat */
+	/** @var Vat[] */
 	private $vats;
 	/** @var CorrectionOperationTypes */
 	private $operationType;

@@ -46,7 +46,7 @@ class Item extends BaseDataObject
 	/** @var MarkCode */
 	protected $mark_code;
 	/** @var SectoralItemProps[] */
-	protected $sectoral_item_props;
+	private $sectoralItemProps;
 
 	/**
 	 * Item constructor
@@ -176,11 +176,22 @@ class Item extends BaseDataObject
 	}
 
 	/**
-	 * @param array $sectoralItemProps
+	 * @param SectoralItemProps[] $sectoralItemProps
 	 */
 	public function addSectoralItemProps($sectoralItemProps)
 	{
-		$this->sectoral_item_props[] = $sectoralItemProps;
+		$this->sectoralItemProps = $sectoralItemProps;
 	}
 
+	public function getParameters()
+	{
+		$params = parent::getParameters();
+		if ($this->sectoralItemProps) {
+			foreach ($this->sectoralItemProps as $sectoralItemProp) {
+				$params['sectoral_item_props'][] = $sectoralItemProp->getParameters();
+			}
+		}
+
+		return $params;
+	}
 }

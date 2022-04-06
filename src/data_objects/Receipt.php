@@ -19,10 +19,10 @@ class Receipt extends BaseDataObject
 	/** @var string */
 	private $additionalCheckProps;
 	/** @var OperatingCheckProps */
-	private $operatingCheckProps;
+	protected $operating_check_props;
 	/** @var AdditionalUserProps */
-	private $additionalUserProps;
-	/** @var SectoralBase */
+	protected $additional_user_props;
+	/** @var SectoralCheckProps[] */
 	private $sectoralCheckProps;
 
 	/**
@@ -81,6 +81,44 @@ class Receipt extends BaseDataObject
 	}
 
 	/**
+	 * @param string $additionalCheckProps
+	 */
+	public function setAdditionalCheckProps($additionalCheckProps)
+	{
+		if (!is_string($additionalCheckProps)) {
+			throw new \InvalidArgumentException('Parameter additionalCheckProps should be string');
+		}
+		if (strlen($additionalCheckProps) > 16) {
+			throw new \LengthException('Parameter additionalCheckProps should has length less than or equal 16');
+		}
+		$this->additionalCheckProps = $additionalCheckProps;
+	}
+
+	/**
+	 * @param OperatingCheckProps $operatingCheckProps
+	 */
+	public function addOperatingCheckProps(OperatingCheckProps $operatingCheckProps)
+	{
+		$this->operating_check_props = $operatingCheckProps;
+	}
+
+	/**
+	 * @param AdditionalUserProps $additionalUserProps
+	 */
+	public function addAdditionalUserProps(AdditionalUserProps $additionalUserProps)
+	{
+		$this->additional_user_props = $additionalUserProps;
+	}
+
+	/**
+	 * @param SectoralCheckProps[] $sectoralCheckProps
+	 */
+	public function addSectoralCheckProps($sectoralCheckProps)
+	{
+		$this->sectoralCheckProps = $sectoralCheckProps;
+	}
+
+	/**
 	 * @return array
 	 */
 	public function getParameters()
@@ -100,56 +138,12 @@ class Receipt extends BaseDataObject
 			$params['additional_check_props'] = $this->additionalCheckProps;
 		}
 
-		if (!empty($this->operatingCheckProps)) {
-			$params['operating_check_props'] = $this->operatingCheckProps;
-		}
-
-		if (!empty($this->additionalUserProps)) {
-			$params['additional_user_props'] = $this->additionalUserProps;
-		}
-
-		if (!empty($this->sectoralCheckProps)) {
-			$params['sectoral_check_props'] = $this->sectoralCheckProps;
+		if ($this->sectoralCheckProps) {
+			foreach ($this->sectoralCheckProps as $sectoralCheckProp) {
+				$params['sectoral_check_props'][] = $sectoralCheckProp->getParameters();
+			}
 		}
 
 		return $params;
-	}
-
-	/**
-	 * @param string $additionalCheckProps
-	 */
-	public function setAdditionalCheckProps($additionalCheckProps)
-	{
-		if (!is_string($additionalCheckProps)) {
-			throw new \InvalidArgumentException('Parameter additionalCheckProps should be string');
-		}
-		if (strlen($additionalCheckProps) > 16) {
-			throw new \LengthException('Parameter additionalCheckProps should has length less than or equal 16');
-		}
-		$this->additionalCheckProps = $additionalCheckProps;
-	}
-
-	/**
-	 * @param OperatingCheckProps $operatingCheckProps
-	 */
-	public function addOperatingCheckProps(OperatingCheckProps $operatingCheckProps)
-	{
-		$this->operatingCheckProps = $operatingCheckProps->getParameters();
-	}
-
-	/**
-	 * @param AdditionalUserProps $additionalUserProps
-	 */
-	public function addAdditionalUserProps(AdditionalUserProps $additionalUserProps)
-	{
-		$this->additionalUserProps = $additionalUserProps->getParameters();
-	}
-
-	/**
-	 * @param SectoralBase $sectoralCheckProps
-	 */
-	public function addSectoralCheckProps(SectoralBase $sectoralCheckProps)
-	{
-		$this->sectoralCheckProps[] = $sectoralCheckProps->getParameters();
 	}
 }
