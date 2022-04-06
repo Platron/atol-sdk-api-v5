@@ -1,9 +1,9 @@
 <?php
 
-namespace Platron\AtolV4\services;
+namespace Platron\AtolV5\services;
 
-use Platron\AtolV4\data_objects\Correction;
-use Platron\AtolV4\data_objects\Service;
+use Platron\AtolV5\data_objects\Correction;
+use Platron\AtolV5\data_objects\Service;
 
 class CreateCorrectionRequest extends BaseServiceRequest
 {

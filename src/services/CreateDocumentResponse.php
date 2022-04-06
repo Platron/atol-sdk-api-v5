@@ -1,6 +1,6 @@
 <?php
 
-namespace Platron\AtolV4\services;
+namespace Platron\AtolV5\services;
 
 abstract class CreateDocumentResponse extends BaseServiceResponse
 {

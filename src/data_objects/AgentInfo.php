@@ -1,8 +1,8 @@
 <?php
 
-namespace Platron\AtolV4\data_objects;
+namespace Platron\AtolV5\data_objects;
 
-use Platron\AtolV4\handbooks\AgentTypes;
+use Platron\AtolV5\handbooks\AgentTypes;
 
 class AgentInfo extends BaseDataObject
 {
@@ -17,6 +17,11 @@ class AgentInfo extends BaseDataObject
 	/** @var MoneyTransferOperator */
 	protected $money_transfer_operator;
 
+	/**
+	 * AgentInfo constructor
+	 * @param AgentTypes $type
+	 * @param Supplier $supplier
+	 */
 	public function __construct(AgentTypes $type, Supplier $supplier)
 	{
 		$this->type = $type->getValue();

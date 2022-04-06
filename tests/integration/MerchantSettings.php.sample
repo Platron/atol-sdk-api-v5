@@ -1,6 +1,6 @@
 <?php
 
-namespace Platron\AtolV4\tests\integration;
+namespace Platron\AtolV5\tests\integration;
 
 class MerchantSettings
 {
