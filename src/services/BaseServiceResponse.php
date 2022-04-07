@@ -1,6 +1,6 @@
 <?php
 
-namespace Platron\AtolV4\services;
+namespace Platron\AtolV5\services;
 
 use stdClass;
 
@@ -13,6 +13,10 @@ abstract class BaseServiceResponse
 	/** @var string */
 	protected $errorDescription;
 
+	/**
+	 * BaseServiceResponse constructor
+	 * @param stdClass $response
+	 */
 	public function __construct(stdClass $response)
 	{
 		if ($this->hasStandardError($response)) {
@@ -41,9 +45,9 @@ abstract class BaseServiceResponse
 	private function setStandardError(stdClass $response)
 	{
 		$this->errorCode = $response->error->code;
-		$this->errorDescription = 'Error type '.$response->error->type.' error code '.$response->error->code.' '.$response->error->text;
-		if(!empty($response->error->error_id)){
-			$this->errorDescription .= '. Error id '.$response->error->error_id;
+		$this->errorDescription = 'Error type ' . $response->error->type . ' error code ' . $response->error->code . ' ' . $response->error->text;
+		if (!empty($response->error->error_id)) {
+			$this->errorDescription .= '. Error id ' . $response->error->error_id;
 		}
 	}
 

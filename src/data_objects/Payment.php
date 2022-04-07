@@ -1,8 +1,8 @@
 <?php
 
-namespace Platron\AtolV4\data_objects;
+namespace Platron\AtolV5\data_objects;
 
-use Platron\AtolV4\handbooks\PaymentTypes;
+use Platron\AtolV5\handbooks\PaymentTypes;
 
 class Payment extends BaseDataObject
 {

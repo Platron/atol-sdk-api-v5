@@ -1,9 +1,9 @@
 <?php
 
-namespace Platron\AtolV4\services;
+namespace Platron\AtolV5\services;
 
-use Platron\AtolV4\data_objects\Receipt;
-use Platron\AtolV4\data_objects\Service;
+use Platron\AtolV5\data_objects\Receipt;
+use Platron\AtolV5\data_objects\Service;
 
 class CreateReceiptRequest extends BaseServiceRequest
 {
@@ -24,7 +24,7 @@ class CreateReceiptRequest extends BaseServiceRequest
 	 */
 	public function getRequestUrl()
 	{
-		return $this->getBaseUrl() . $this->groupCode . '/'.$this->receipt->getOperationType();
+		return $this->getBaseUrl() . $this->groupCode . '/' . $this->receipt->getOperationType();
 	}
 
 	/**

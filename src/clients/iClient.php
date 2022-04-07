@@ -1,8 +1,9 @@
 <?php
 
-namespace Platron\AtolV4\clients;
+namespace Platron\AtolV5\clients;
 
-use Platron\AtolV4\services\BaseServiceRequest;
+use Platron\AtolV5\services\BaseServiceRequest;
+use stdClass;
 
 interface iClient
 {

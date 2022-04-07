@@ -1,8 +1,8 @@
 <?php
 
-namespace Platron\AtolV4\data_objects;
+namespace Platron\AtolV5\data_objects;
 
-use Platron\AtolV4\handbooks\CorrectionOperationTypes;
+use Platron\AtolV5\handbooks\CorrectionOperationTypes;
 
 class Correction extends BaseDataObject
 {
@@ -12,10 +12,12 @@ class Correction extends BaseDataObject
 	protected $correction_info;
 	/** @var Payment[] */
 	private $payments;
-	/** @var Vat */
+	/** @var Vat[] */
 	private $vats;
 	/** @var CorrectionOperationTypes */
 	private $operationType;
+	/** @var Item[] */
+	protected $items;
 
 	/**
 	 * Correction constructor.
@@ -24,14 +26,26 @@ class Correction extends BaseDataObject
 	 * @param CorrectionInfo $correctionInfo
 	 * @param Payment $payment
 	 * @param Vat $vat
+	 * @param Item[] $items
 	 */
-	public function __construct(CorrectionOperationTypes $operationType, Company $company, CorrectionInfo $correctionInfo, Payment $payment, Vat $vat)
+	public function __construct(CorrectionOperationTypes $operationType, Company $company, CorrectionInfo $correctionInfo, Payment $payment, Vat $vat, $items)
 	{
 		$this->operationType = $operationType->getValue();
 		$this->company = $company;
 		$this->correction_info = $correctionInfo;
 		$this->addPayment($payment);
 		$this->addVat($vat);
+		foreach ($items as $item) {
+			$this->addItem($item);
+		}
+	}
+
+	/**
+	 * @param Item $item
+	 */
+	private function addItem(Item $item)
+	{
+		$this->items[] = $item->getParameters();
 	}
 
 	/**
@@ -53,7 +67,8 @@ class Correction extends BaseDataObject
 	/**
 	 * @return string
 	 */
-	public function getOperationType(){
+	public function getOperationType()
+	{
 		return $this->operationType;
 	}
 
@@ -63,13 +78,15 @@ class Correction extends BaseDataObject
 	public function getParameters()
 	{
 		$parameters = parent::getParameters();
-		foreach($this->payments as $payment){
+		$total = 0;
+		foreach ($this->payments as $payment) {
 			$parameters['payments'][] = $payment->getParameters();
+			$total += $payment->getParameters()['sum'];
 		}
-		foreach($this->vats as $vat){
+		foreach ($this->vats as $vat) {
 			$parameters['vats'][] = $vat->getParameters();
 		}
-
+		$parameters['total'] = $total;
 		return $parameters;
 	}
 }

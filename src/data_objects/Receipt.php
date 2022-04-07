@@ -1,8 +1,8 @@
 <?php
 
-namespace Platron\AtolV4\data_objects;
+namespace Platron\AtolV5\data_objects;
 
-use Platron\AtolV4\handbooks\ReceiptOperationTypes;
+use Platron\AtolV5\handbooks\ReceiptOperationTypes;
 
 class Receipt extends BaseDataObject
 {
@@ -18,6 +18,12 @@ class Receipt extends BaseDataObject
 	private $operationType;
 	/** @var string */
 	private $additionalCheckProps;
+	/** @var OperatingCheckProps */
+	protected $operating_check_props;
+	/** @var AdditionalUserProps */
+	protected $additional_user_props;
+	/** @var SectoralCheckProps[] */
+	private $sectoralCheckProps;
 
 	/**
 	 * Document constructor.
@@ -31,7 +37,7 @@ class Receipt extends BaseDataObject
 	{
 		$this->client = $client;
 		$this->company = $company;
-		foreach($items as $item) {
+		foreach ($items as $item) {
 			$this->addItem($item);
 		}
 		$this->addPayment($payment);
@@ -69,8 +75,47 @@ class Receipt extends BaseDataObject
 	/**
 	 * @return string
 	 */
-	public function getOperationType(){
+	public function getOperationType()
+	{
 		return $this->operationType;
+	}
+
+	/**
+	 * @param string $additionalCheckProps
+	 */
+	public function setAdditionalCheckProps($additionalCheckProps)
+	{
+		if (!is_string($additionalCheckProps)) {
+			throw new \InvalidArgumentException('Parameter additionalCheckProps should be string');
+		}
+		if (strlen($additionalCheckProps) > 16) {
+			throw new \LengthException('Parameter additionalCheckProps should has length less than or equal 16');
+		}
+		$this->additionalCheckProps = $additionalCheckProps;
+	}
+
+	/**
+	 * @param OperatingCheckProps $operatingCheckProps
+	 */
+	public function addOperatingCheckProps(OperatingCheckProps $operatingCheckProps)
+	{
+		$this->operating_check_props = $operatingCheckProps;
+	}
+
+	/**
+	 * @param AdditionalUserProps $additionalUserProps
+	 */
+	public function addAdditionalUserProps(AdditionalUserProps $additionalUserProps)
+	{
+		$this->additional_user_props = $additionalUserProps;
+	}
+
+	/**
+	 * @param SectoralCheckProps[] $sectoralCheckProps
+	 */
+	public function addSectoralCheckProps($sectoralCheckProps)
+	{
+		$this->sectoralCheckProps = $sectoralCheckProps;
 	}
 
 	/**
@@ -80,33 +125,25 @@ class Receipt extends BaseDataObject
 	{
 		$params = parent::getParameters();
 
-		foreach($this->items as $item) {
+		foreach ($this->items as $item) {
 			$params['items'][] = $item->getParameters();
 		}
-		foreach($this->payments as $payment) {
+		foreach ($this->payments as $payment) {
 			$params['payments'][] = $payment->getParameters();
 		}
 
 		$params['total'] = (double)$this->getItemsAmount();
 
 		if (!empty($this->additionalCheckProps)) {
-		    $params['additional_check_props'] = $this->additionalCheckProps;
-        }
+			$params['additional_check_props'] = $this->additionalCheckProps;
+		}
+
+		if ($this->sectoralCheckProps) {
+			foreach ($this->sectoralCheckProps as $sectoralCheckProp) {
+				$params['sectoral_check_props'][] = $sectoralCheckProp->getParameters();
+			}
+		}
 
 		return $params;
 	}
-
-    /**
-     * @param string $additionalCheckProps
-     */
-	public function setAdditionalCheckProps($additionalCheckProps)
-    {
-        if (!is_string($additionalCheckProps)) {
-            throw new \InvalidArgumentException('Parameter additionalCheckProps should be string');
-        }
-        if (strlen($additionalCheckProps) > 16) {
-            throw new \LengthException('Parameter additionalCheckProps should has length less than or equal 16');
-        }
-        $this->additionalCheckProps = $additionalCheckProps;
-    }
 }

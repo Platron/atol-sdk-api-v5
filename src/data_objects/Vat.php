@@ -1,8 +1,8 @@
 <?php
 
-namespace Platron\AtolV4\data_objects;
+namespace Platron\AtolV5\data_objects;
 
-use Platron\AtolV4\handbooks\Vates;
+use Platron\AtolV5\handbooks\Vates;
 
 class Vat extends BaseDataObject
 {
@@ -11,6 +11,10 @@ class Vat extends BaseDataObject
 	/** @var float */
 	protected $sum;
 
+	/**
+	 * Vat constructor
+	 * @param Vates $type
+	 */
 	public function __construct(Vates $type)
 	{
 		$this->type = $type->getValue();
