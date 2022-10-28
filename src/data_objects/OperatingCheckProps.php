@@ -18,25 +18,13 @@ class OperatingCheckProps extends BaseDataObject
 	/**
 	 * OperatingCheckProps constructor
 	 * @param string $name
+	 * @param string $value
+	 * @param string $timestamp
 	 */
-	public function __construct($name = "0")
+	public function __construct($name,$value,$timestamp)
 	{
 		$this->name = (string)$name;
-	}
-
-	/**
-	 * @param string $value
-	 */
-	public function addValue($value)
-	{
 		$this->value = (string)$value;
-	}
-
-	/**
-	 * @param string $value
-	 */
-	public function addTimestamp($timestamp)
-	{
 		$this->timestamp = (string)$timestamp;
 	}
 }
