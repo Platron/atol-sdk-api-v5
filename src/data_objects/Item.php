@@ -4,6 +4,7 @@ namespace Platron\AtolV5\data_objects;
 
 use Platron\AtolV5\handbooks\PaymentMethods;
 use Platron\AtolV5\handbooks\PaymentObjects;
+use Platron\AtolV5\handbooks\Measures;
 
 
 class Item extends BaseDataObject
@@ -19,7 +20,7 @@ class Item extends BaseDataObject
 	protected $price;
 	/** @var int */
 	protected $quantity;
-	/** @var string */
+	/** @var int */
 	protected $measure;
 	/** @var string */
 	protected $payment_method;
@@ -56,11 +57,14 @@ class Item extends BaseDataObject
 	 * @param Vat $vat
 	 * @param double $sum Сумма количества товаров. Передается если количество * цену товара не равно sum
 	 */
-	public function __construct($name, $price, $quantity, Vat $vat, $sum = null)
+	public function __construct($name, $price, $quantity, Vat $vat, Measures $measure, PaymentMethods $paymentMethod, PaymentObjects $paymentObject, $sum = null)
 	{
 		$this->name = (string)$name;
 		$this->price = (double)$price;
 		$this->quantity = (double)$quantity;
+		$this->measure = $measure->getValue();
+		$this->payment_method = $paymentMethod->getValue();
+		$this->payment_object = $paymentObject->getValue();
 		if (!$sum) {
 			$this->sum = (double)$this->quantity * $this->price;
 		} else {
@@ -81,9 +85,9 @@ class Item extends BaseDataObject
 	/**
 	 * @param int $measure
 	 */
-	public function addMeasure($measure)
+	public function addMeasure(Measures $measure)
 	{
-		$this->measure = (int)$measure;
+		$this->measure = $measure->getValue();
 	}
 
 	/**
