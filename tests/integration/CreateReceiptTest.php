@@ -23,6 +23,7 @@ use Platron\AtolV5\data_objects\Supplier;
 use Platron\AtolV5\data_objects\Vat;
 use Platron\AtolV5\handbooks\AgentTypes;
 use Platron\AtolV5\handbooks\MarkCodeTypes;
+use Platron\AtolV5\handbooks\Measures;
 use Platron\AtolV5\handbooks\PaymentMethods;
 use Platron\AtolV5\handbooks\PaymentObjects;
 use Platron\AtolV5\handbooks\PaymentTypes;
@@ -177,13 +178,13 @@ class CreateReceiptTest extends IntegrationTestBase
 			'Test Product',
 			10,
 			1,
-			$vat
+			$vat,
+			new Measures(Measures::ONE),
+			new PaymentMethods(PaymentMethods::FULL_PAYMENT),
+			new PaymentObjects(PaymentObjects::EXCISE_WITH_MARK)
 		);
 		$agentInfo = $this->createAgentInfo();
 		$item->addAgentInfo($agentInfo);
-		$item->getPositionSum(10);
-
-		$item->addMeasure(0);
 
 		$item->addMarkProcessingMode(0);
 
@@ -199,8 +200,7 @@ class CreateReceiptTest extends IntegrationTestBase
 		$item->addMarkCode($markCode);
 
 		$sectoral_item_props = $this->createSectoralItemProps();
-		$item->addSectoralItemProps($sectoral_item_props->getParameters());
-
+		$item->addSectoralItemProps([$sectoral_item_props]);
 		$item->addPaymentMethod(new PaymentMethods(PaymentMethods::FULL_PAYMENT));
 		$item->addPaymentObject(new PaymentObjects(PaymentObjects::EXCISE_WITH_MARK));
 		$item->addUserData('Test user data');
@@ -251,9 +251,11 @@ class CreateReceiptTest extends IntegrationTestBase
 
 	private function createOperatingCheckProps()
 	{
-		$operating_check_props = new OperatingCheckProps("0");
-		$operating_check_props->addValue("Operating check props value");
-		$operating_check_props->addTimestamp("12.10.2020 17:20:55");
+		$operating_check_props = new OperatingCheckProps(
+			"0",
+			"Operating check props value",
+			"12.10.2020 17:20:55"
+		);
 		return $operating_check_props;
 	}
 

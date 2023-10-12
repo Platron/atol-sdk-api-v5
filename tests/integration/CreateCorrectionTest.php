@@ -21,6 +21,7 @@ use Platron\AtolV5\handbooks\AgentTypes;
 use Platron\AtolV5\handbooks\CorrectionOperationTypes;
 use Platron\AtolV5\handbooks\CorrectionTypes;
 use Platron\AtolV5\handbooks\MarkCodeTypes;
+use Platron\AtolV5\handbooks\Measures;
 use Platron\AtolV5\handbooks\PaymentMethods;
 use Platron\AtolV5\handbooks\PaymentObjects;
 use Platron\AtolV5\handbooks\PaymentTypes;
@@ -152,12 +153,13 @@ class CreateCorrectionTest extends IntegrationTestBase
 			'Test Product',
 			100,
 			1,
-			$vat
+			$vat,
+			new Measures(Measures::ONE),
+			new PaymentMethods(PaymentMethods::FULL_PAYMENT),
+			new PaymentObjects(PaymentObjects::EXCISE_WITH_MARK)
 		);
 		$agentInfo = $this->createAgentInfo();
 		$item->addAgentInfo($agentInfo);
-		$item->getPositionSum(100);
-		$item->addMeasure(0);
 		$item->addMarkProcessingMode(0);
 		$markQuantity = $this->createMarkQuantity();
 		$item->addMarkQuantity($markQuantity);
@@ -168,8 +170,6 @@ class CreateCorrectionTest extends IntegrationTestBase
 		$item->addMarkCode($markCode);
 		$sectoral_item_props = $this->createSectoralItemProps();
 		$item->addSectoralItemProps([$sectoral_item_props]);
-		$item->addPaymentMethod(new PaymentMethods(PaymentMethods::FULL_PAYMENT));
-		$item->addPaymentObject(new PaymentObjects(PaymentObjects::EXCISE_WITH_MARK));
 		$item->addUserData('Test user data');
 		$item->addExcise(5.64);
 		$item->addCountryCode("643");
