@@ -2,6 +2,7 @@
 
 namespace Platron\AtolV5\tests\unit\data_objects;
 
+use PHPUnit\Framework\TestCase;
 use Platron\AtolV5\data_objects\Client;
 use Platron\AtolV5\data_objects\Company;
 use Platron\AtolV5\data_objects\Item;
@@ -9,7 +10,7 @@ use Platron\AtolV5\data_objects\Payment;
 use Platron\AtolV5\data_objects\Receipt;
 use Platron\AtolV5\handbooks\ReceiptOperationTypes;
 
-class ReceiptTest extends \PHPUnit_Framework_TestCase
+class ReceiptTest extends TestCase
 {
 	public function test_getParameters_withoutAdditionalCheckProps_resultHasNoKey()
 	{
