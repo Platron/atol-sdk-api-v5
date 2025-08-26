@@ -5,6 +5,7 @@ namespace Platron\AtolV5\tests\integration;
 use Platron\AtolV5\clients\PostClient;
 use Platron\AtolV5\data_objects\AdditionalUserProps;
 use Platron\AtolV5\data_objects\AgentInfo;
+use Platron\AtolV5\data_objects\CashlessPayment;
 use Platron\AtolV5\data_objects\Client;
 use Platron\AtolV5\data_objects\Company;
 use Platron\AtolV5\data_objects\Item;
@@ -293,6 +294,7 @@ class CreateReceiptTest extends IntegrationTestBase
 		$customer = $this->createCustomer();
 		$company = $this->createCompany();
 		$receipt = new Receipt($customer, $company, [$item], $payment, new ReceiptOperationTypes(ReceiptOperationTypes::BUY));
+		$receipt->setInternet(true);
 
 		$sectoral_check_props = $this->createSectoralCheckProps();
 		$receipt->addSectoralCheckProps([$sectoral_check_props]);
@@ -302,6 +304,9 @@ class CreateReceiptTest extends IntegrationTestBase
 
 		$additional_user_props = $this->createAdditionalUserProps();
 		$receipt->addAdditionalUserProps($additional_user_props);
+
+		$cashlessPayment = new CashlessPayment(10, 1, 'random_id');
+		$receipt->setCashlessPayments([$cashlessPayment]);
 
 		return $receipt;
 	}

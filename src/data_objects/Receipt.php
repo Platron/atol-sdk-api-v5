@@ -24,6 +24,10 @@ class Receipt extends BaseDataObject
 	protected $additional_user_props;
 	/** @var SectoralCheckProps[] */
 	private $sectoralCheckProps;
+	/** @var boolean */
+	protected $internet;
+	/** @var CashlessPayment[] */
+	private $cashlessPayments;
 
 	/**
 	 * Document constructor.
@@ -118,6 +122,19 @@ class Receipt extends BaseDataObject
 		$this->sectoralCheckProps = $sectoralCheckProps;
 	}
 
+	public function setInternet(bool $internet)
+	{
+		$this->internet = $internet;
+	}
+
+	/**
+	 * @param CashlessPayment[] $cashlessPayments
+	 */
+	public function setCashlessPayments(array $cashlessPayments)
+	{
+		$this->cashlessPayments = $cashlessPayments;
+	}
+
 	/**
 	 * @return array
 	 */
@@ -141,6 +158,13 @@ class Receipt extends BaseDataObject
 		if ($this->sectoralCheckProps) {
 			foreach ($this->sectoralCheckProps as $sectoralCheckProp) {
 				$params['sectoral_check_props'][] = $sectoralCheckProp->getParameters();
+			}
+		}
+
+		if (!empty($this->cashlessPayments)) {
+			$params['cashless_payments'] = [];
+			foreach ($this->cashlessPayments as $cashlessPayment) {
+				$params['cashless_payments'][] = $cashlessPayment->getParameters();
 			}
 		}
 
